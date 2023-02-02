@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital@0;1&display=swap');
+
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+table {
+    border: solid 1px #333;
+    width: 80%;
+    padding: 8px;
+}
+
+.error {
+    font-weight: bold;
+    color: #ad1513;
+}
