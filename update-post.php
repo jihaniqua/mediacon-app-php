@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saving your post...</title>
+    <!-- step 1: change title -->
+    <title>Updating your post...</title>
     <!-- normalize to remove browser default styles -->
     <link rel="stylesheet" href="css/normalize.css" />
     <!-- our custom css -->
@@ -30,6 +31,7 @@
         // capture the form body input using the $_POST array & store in a var
         $body = $_POST['body'];
         $user = $_POST['user'];
+        $postId = $_POST['postId']; // hidden input w/PK
         
         // calculate the date and time with php
         date_default_timezone_set("America/Toronto");
@@ -60,14 +62,15 @@
                 echo 'Connection Failed';
             } */
 
-            // set up an SQL INSERT "INSERT INTO tableName (colName1, colName2 , colName3) VALUES (colon-prefix-value parameter as placeholders)
-            $sql = "INSERT INTO posts (body, user, dateCreated) VALUES (:body, :user, :dateCreated)";
+            // step 2: update table. set up an SQL UPDATE. We MUST HAVE A WHERE CLAUSE
+            $sql = "UPDATE posts SET body = :body, user = :user, dateCreated = :dateCreated WHERE postId = :postId";
 
             // map each input to the corresponding db column
             $cmd = $db->prepare($sql);
             $cmd->bindParam(':body', $body, PDO::PARAM_STR, 4000);
             $cmd->bindParam(':user', $user, PDO::PARAM_STR, 100);
             $cmd->bindParam(':dateCreated', $dateCreated, PDO::PARAM_STR);
+            $cmd->bindParam(':postId', $postId, PDO::PARAM_INT);
 
             // execute the insert
             $cmd->execute();
@@ -76,7 +79,7 @@
             $db = null;
 
             // show the user a message
-            echo '<h1>Post saved</h1>
+            echo '<h1>Post updated</h1>
                 <p><a href="posts.php">See the updated feed</a></p>';
         }
         ?>
