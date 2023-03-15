@@ -52,7 +52,7 @@
         // only save to db if $ok has never changed to false
         if ($ok == true) {
             // connect to the db
-            $db = new PDO('mysql:host=172.31.22.43;dbname=Jihan200523101', 'Jihan200523101', 'ZjTmwnJCwo');
+            require('shared/db.php');
             /* if ($db) {
                 echo 'Connected';
             }
