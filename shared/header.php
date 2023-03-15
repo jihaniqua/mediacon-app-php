@@ -11,8 +11,7 @@
     <link rel="stylesheet" href="css/app.css" />
     <!-- our custom js -->
     <script src="js/scripts.js" defer></script>
-</head>
-
+</head>s
 <body>
     <header>
         <h1>

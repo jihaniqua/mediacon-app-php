@@ -24,5 +24,4 @@ $db = null;
 // redirect to updated feed
 // echo 'Deleted';
 header('location:posts.php');
-
 ?>
