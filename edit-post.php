@@ -1,31 +1,44 @@
 <?php
+require('shared/auth.php');
+
 $title = 'Edit your post';
 require('shared/header.php');
 ?>
 <main>
     <?php 
-    // step 6
-    // get the postId from the url parameter using $_GET
-    $postId = $_GET['postId'];
-    if (empty($postId)) {
-        header('location:404.php');
-        exit();
+    try {
+        // step 6
+        // get the postId from the url parameter using $_GET
+        $postId = $_GET['postId'];
+        if (empty($postId)) {
+            header('location:404.php');
+            exit();
+        }
+
+        // connect
+        require('shared/db.php');
+        
+        // set up $ run SQL query to fetch the selected post record
+        $sql = "SELECT * FROM posts WHERE postId = :postId";
+        $cmd = $db->prepare($sql);
+        $cmd->bindParam(':postId', $postId, PDO::PARAM_INT);
+        $cmd->execute();
+        $post = $cmd->fetch();
+
+        // check query returned a valid post record
+        if (empty($post)) {
+            header('location:404.php');
+            exit();
+        }
+
+        // access control check: is logged user the owner of this post?
+        if ($post['user'] != $_SESSION['user']) {
+            header('location:403.php');  // 403 = HTTP Forbidden Error
+            exit();
+        }
     }
-
-
-    // connect
-    require('shared/db.php');
-    
-    // set up $ run SQL query to fetch the selected post record
-    $sql = "SELECT * FROM posts WHERE postId = :postId";
-    $cmd = $db->prepare($sql);
-    $cmd->bindParam(':postId', $postId, PDO::PARAM_INT);
-    $cmd->execute();
-    $post = $cmd->fetch();
-
-    // check query returned a valid post record
-    if (empty($post)) {
-        header('location:404.php');
+    catch (Exception $error) {
+        header('location:error.php');
         exit();
     }
 
@@ -37,40 +50,9 @@ require('shared/header.php');
     <form action="update-post.php" method="post">
         <fieldset>
             <label for="body">Body:</label>
-            <!-- step 7 -->
             <textarea name="body" id="body" maxlength="4000" required><?php echo $post['body']; ?></textarea>
         </fieldset>
-        <fieldset>
-            <label for="user">User:</label>
-            <select name="user" id="user">
-                <?php
-                // step 5: take-off connection here and move on the top (line 34) for better efficiency
-
-                // use SELECT to fetch the users
-                $sql = "SELECT * FROM users";
-
-                // run the Query
-                $cmd = $db->prepare($sql);
-                $cmd->execute();
-                $users = $cmd->fetchAll();
-
-                // loop through the user data to create a list item for each
-                foreach ($users as $user) {
-                    // step 8: select user that made the current post
-                    if ($post['user'] == $user['email']) {
-                        echo '<option selected>' . $user['email'] . '</option>';
-                    }
-                    else {
-                        echo '<option>' . $user['email'] . '</option>';
-                    }
-                }
-
-                // disconnect
-                $db = null;
-
-                ?>
-            </select>
-        </fieldset>
+        <!-- Take off the user fieldset with step 5 -->
         <fieldset>
             <label>Date Created:</label>
             <?php

@@ -1,4 +1,6 @@
 <?php
+require('shared/auth.php');
+
 $title = 'Updating your post...';
 require('shared/header.php');
 ?>
@@ -6,7 +8,7 @@ require('shared/header.php');
     <?php
     // capture the form body input using the $_POST array & store in a var
     $body = $_POST['body'];
-    $user = $_POST['user'];
+    $user = $_SESSION['user']; // $_POST['user']
     $postId = $_POST['postId']; // hidden input w/PK
     
     // calculate the date and time with php

@@ -20,9 +20,11 @@ require('shared/header.php');
         <fieldset>
             <label for="confirm">Confirm Password: *</label>
             <input type="password" name="confirm" id="confirm" required
-                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" />
+                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                onkeyup="return comparePasswords();" />
+            <span id="pwMsg" class="error"></span>
         </fieldset>
-        <button class="btnOffset">Register</button>
+        <button class="btnOffset" onclick="return comparePasswords();">Register</button>
     </form>
 </main>
 <?php require('shared/footer.php'); ?>

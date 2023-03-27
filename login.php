@@ -4,7 +4,14 @@ require 'shared/header.php';
 ?>
 <main>
     <h1>Login</h1>
-    <h5>Please enter your credentials.</h5>
+    <?php
+    if (!empty($_GET['valid'])) {
+        echo '<h5 class="error">Invalid Login</h5>';
+    }
+    else {
+        echo '<h5>Please enter your credentials.</h5>';
+    }
+    ?>
     <form method="post" action="validate.php">
         <fieldset>
             <label for="username">Username:</label>

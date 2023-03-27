@@ -22,8 +22,21 @@
         <nav>
             <ul>
                 <li><a href="posts.php">Posts</a></li>
-                <li><a href="register.php">Register</a></li>
-                <li><a href="login.php">Login</a></li>
+                <?php
+                session_start();
+                if (session_status() == PHP_SESSION_NONE) {
+                    session_start();
+                }
+
+                if (empty($_SESSION['user'])) {
+                    echo '<li><a href="register.php">Register</a></li>
+                    <li><a href="login.php">Login</a></li>';
+                }
+                else {
+                    echo '<li><a href="#">' . $_SESSION['user'] . '</a></li>
+                    <li><a href="logout.php">Logout</a></li>';
+                }
+                ?>
             </ul>
         </nav>
     </header>
