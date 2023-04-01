@@ -16,6 +16,8 @@ require('shared/header.php');
             <label for="password">Password: *</label>
             <input type="password" name="password" id="password" required
                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" />
+            <img id="imgShowHide" src="img/show.png" alt="Show/Hide" 
+                onclick="showHide();" />
         </fieldset>
         <fieldset>
             <label for="confirm">Confirm Password: *</label>

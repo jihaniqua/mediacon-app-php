@@ -16,3 +16,17 @@ function comparePasswords() {
         return true;
     }
 }
+
+function showHide() {
+    const pw = document.getElementById('password');
+    const img = document.getElementById('imgShowHide');
+
+    if (pw.type == 'password') {
+        pw.type = 'text';
+        img.src = 'img/show.png'
+    }
+    else {
+        pw.type = 'password';
+        img.src = 'img/hide.png';
+    }
+}

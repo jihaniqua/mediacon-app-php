@@ -59,12 +59,12 @@ textarea {
 }
 
 label {
-    width: 100px;
+    width: 160px;
     display: inline-block;
 }
 
 .btnOffset {
-    margin-left: 118px;
+    margin-left: 178px;
 }
 
 button {
@@ -165,4 +165,8 @@ footer {
     color: var(--primary-text);
     text-align: center;
     padding: 20px;
+}
+
+#imgShowHide {
+    cursor: pointer;
 }
