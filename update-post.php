@@ -10,6 +10,7 @@ require('shared/header.php');
     $body = $_POST['body'];
     $user = $_SESSION['user']; // $_POST['user']
     $postId = $_POST['postId']; // hidden input w/PK
+    $photo = $_FILES['photo'];
     
     // calculate the date and time with php
     date_default_timezone_set("America/Toronto");
@@ -29,6 +30,28 @@ require('shared/header.php');
         $ok = false; // error happened - bad data
     }
 
+    // Apr 3 - Step 7: Add add validation same as save-post.php
+    // if a photo was uploaded, validate & save it (Is there a photo?)
+    if (!empty($photo['name'])) {
+        // get temp file (Where is it located?)
+        $tmp_name = $photo['tmp_name'];
+
+        // ensure file is jpg or png (Is it the correct file type)
+        $type = mime_content_type($tmp_name);
+        if ($type != 'image/png' && $type != 'image/jpeg') {
+            echo 'Please upload a .png or .jpg';
+            $ok = false;
+        }
+
+        // create unique name and save the photo
+        $name = session_id() . '-' . $photo['name'];
+        move_uploaded_file($tmp_name, 'img/' . $name);
+    }
+    else {
+        // no new photo uploaded, keep current photo name
+        $name = $_POST['currentPhoto'];
+    }
+
     // only save to db if $ok has never changed to false
     if ($ok == true) {
         // connect to the db
@@ -39,9 +62,10 @@ require('shared/header.php');
         else {
             echo 'Connection Failed';
         } */
-
+        
+        // Apr 3 - Step 8: edit query
         // step 2: update table. set up an SQL UPDATE. We MUST HAVE A WHERE CLAUSE
-        $sql = "UPDATE posts SET body = :body, user = :user, dateCreated = :dateCreated WHERE postId = :postId";
+        $sql = "UPDATE posts SET body = :body, user = :user, dateCreated = :dateCreated, photo = :photo WHERE postId = :postId";
 
         // map each input to the corresponding db column
         $cmd = $db->prepare($sql);
@@ -49,6 +73,7 @@ require('shared/header.php');
         $cmd->bindParam(':user', $user, PDO::PARAM_STR, 100);
         $cmd->bindParam(':dateCreated', $dateCreated, PDO::PARAM_STR);
         $cmd->bindParam(':postId', $postId, PDO::PARAM_INT);
+        $cmd->bindParam(':photo', $name, PDO::PARAM_STR, 100);
 
         // execute the insert
         $cmd->execute();

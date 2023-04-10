@@ -36,6 +36,27 @@ require('shared/header.php');
         $ok = false;
     }
 
+    // Apr 10 - Step 4
+    // recaptcha v3 anti-spam validation - https://developers.google.com/recaptcha/docs/verify
+    // setup the input params to call the Google API
+    $apiUrl = 'https://www.google.com/recaptcha/api/siteverify';
+    // add secret key from the recaptcha admin page
+    $secret = '6LeoQHUlAAAAABj-FckKNJ9lSPH73XhYKNW9UrZM';
+    $response = $_POST['g-recaptcha-response'];
+
+    // Apr 10 - Step 5 DONE
+    // call the API and parse the JSON-formatted results
+    $apiResponse = file_get_contents("$apiUrl?secret=$secret&response=$response");
+    // converts json string into an array we can parse
+    $decodedResponse = json_decode($apiResponse);
+    if ($decodedResponse->success == false) {
+        echo 'Are you human?';
+        $ok = false;
+    }
+
+    // print($apiResponse); // for testing only
+    // exit(); // for testing only
+
      if ($ok == true) {
         // connect
         require('shared/db.php');

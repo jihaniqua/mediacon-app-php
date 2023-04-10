@@ -47,7 +47,8 @@ require('shared/header.php');
     <h1>Post Details</h1>
     <!-- step 3: edit action page -->
     <!-- step 4: build "update-post.php" page -->
-    <form action="update-post.php" method="post">
+    <!-- Apr 3 - Step 7: edit form  just like in posts and post details -->
+    <form action="update-post.php" method="post" enctype="multipart/form-data">
         <fieldset>
             <label for="body">Body:</label>
             <textarea name="body" id="body" maxlength="4000" required><?php echo $post['body']; ?></textarea>
@@ -59,8 +60,21 @@ require('shared/header.php');
                 echo $post['dateCreated'];
             ?>
         </fieldset>
+        <!-- Apr 3 - Step 8: add file input  -->
+        <fieldset>
+            <label for="photo">Photo:</label>
+            <input type="file" name="photo" accept=".png, .jpg" />
+        </fieldset>
+        <?php
+        // Apr 3 - Step 9: when editing, if there is a photo on the post, display the photo
+        if (!empty($post['photo'])) {
+            echo '<img src="img/' . $post['photo'] . '" alt="Post Photo" />';
+        }
+        ?>
         <button class="btnOffset">Update</button>
         <input name="postId" id="postId" value="<?php echo $postId; ?>" type="hidden" />
+        <!-- Apr 3 - Step 10: hide the current photo displayed to pass so that if user doesn't upload a new photo, the old photo will be processed -->
+        <input name="currentPhoto" value="<?php echo $post['photo']; ?>" type="hidden" />
     </form>
 </main>
 <?php require('shared/footer.php'); ?>

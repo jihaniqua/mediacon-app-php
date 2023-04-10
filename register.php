@@ -7,7 +7,8 @@ require('shared/header.php');
     <h5>Passwords must be a minimum of 8 characters,
         including 1 digit, 1 upper-case letter, and 1 lower-case letter.
     </h5>
-    <form method="post" action="save-registration.php">
+    <!-- Apr 10 - Step 2: add demo-form id -->
+    <form method="post" action="save-registration.php" id="demo-form">
         <fieldset>
             <label for="username">Username: *</label>
             <input name="username" id="username" required type="email" placeholder="email@email.com" />
@@ -26,7 +27,18 @@ require('shared/header.php');
                 onkeyup="return comparePasswords();" />
             <span id="pwMsg" class="error"></span>
         </fieldset>
-        <button class="btnOffset" onclick="return comparePasswords();">Register</button>
+        <!-- Apr 10 - Step 3: copy the 4 button attributes, copy the site key from admin and replace site key placeholder -->
+        <button class="btnOffset g-recaptcha" onclick="return comparePasswords();"
+            data-sitekey="6LeoQHUlAAAAAFfTCYOONLOXn5AuxcUBEBjuwG35" 
+            data-callback='onSubmit' 
+            data-action='submit'>Register</button>
     </form>
 </main>
+<!-- Apr 10 - Step 1: Google Recaptcha v3 API https://developers.google.com/recaptcha/docs/v3 -->
+<script src="https://www.google.com/recaptcha/api.js"></script>
+<script>
+   function onSubmit(token) {
+     document.getElementById("demo-form").submit();
+   }
+ </script>
 <?php require('shared/footer.php'); ?>

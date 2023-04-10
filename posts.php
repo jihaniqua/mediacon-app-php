@@ -46,6 +46,12 @@ require('shared/header.php');
             <p>' . $post['dateCreated'] . '</p>
             <p>' . $post['body'] . '</p>';
 
+            /* Apr 3 - Step 6: if there is a photo on the post, display the photo
+            Next step on edit-post.php line 51 */
+            if (!empty($post['photo'])) {
+                echo '<div><img src="img/' . $post['photo'] . '" alt="Post Photo" /></div>';
+            }
+
             // access check:
             // 1 - is user logged in?
             // 2 - does user own this post?

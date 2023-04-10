@@ -161,10 +161,18 @@ header a:hover {
 }
 
 footer {
+    display: flex;
+    justify-content: start;
+    gap: 20px;
+    align-items: center;
     background: var(--divider-colour);
     color: var(--primary-text);
     text-align: center;
     padding: 20px;
+}
+
+#m-booked-prime-2050 {
+    z-index: 1000;
 }
 
 #imgShowHide {
