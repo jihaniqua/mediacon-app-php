@@ -47,15 +47,16 @@ require('shared/header.php');
     // Apr 10 - Step 5 DONE
     // call the API and parse the JSON-formatted results
     $apiResponse = file_get_contents("$apiUrl?secret=$secret&response=$response");
+    
+    // print($apiResponse); // for testing only
+    // exit(); // for testing only
+    
     // converts json string into an array we can parse
     $decodedResponse = json_decode($apiResponse);
     if ($decodedResponse->success == false) {
         echo 'Are you human?';
         $ok = false;
     }
-
-    // print($apiResponse); // for testing only
-    // exit(); // for testing only
 
      if ($ok == true) {
         // connect

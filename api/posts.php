@@ -3,6 +3,7 @@
 require('../shared/db.php');
 
 // get all posts
+// starting from the most recent post 
 $sql = "SELECT * FROM posts ORDER BY dateCreated DESC";
 
 // check for user filter
@@ -11,6 +12,7 @@ if (!empty($_GET['user'])) {
 }
 
 $cmd = $db->prepare($sql);
+// bind parameter
 if (!empty($_GET['user'])) {
     $cmd->bindParam(':user', $_GET['user'], PDO::PARAM_STR, 50);
 }
